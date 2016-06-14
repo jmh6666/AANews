@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.scrat.app.core.CommonContext;
 
 /**
  * Created by yixuanxuan on 16/4/12.

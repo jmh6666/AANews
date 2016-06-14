@@ -2,7 +2,6 @@ package com.example.administrator.news.net;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.scrat.app.core.utils.L;
 
 /**
  * Created by yixuanxuan on 16/3/31.

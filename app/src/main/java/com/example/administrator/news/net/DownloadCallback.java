@@ -1,7 +1,5 @@
 package com.example.administrator.news.net;
 
-import com.scrat.app.core.utils.ActivityUtils;
-import com.scrat.app.core.utils.IoUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;

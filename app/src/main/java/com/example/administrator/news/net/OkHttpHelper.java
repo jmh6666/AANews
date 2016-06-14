@@ -2,8 +2,7 @@ package com.example.administrator.news.net;
 
 import android.text.TextUtils;
 
-import com.scrat.app.core.utils.L;
-import com.scrat.app.core.utils.NetUtil;
+
 
 import java.io.File;
 import java.io.IOException;

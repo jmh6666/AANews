@@ -1,7 +1,6 @@
 package com.example.administrator.news.net;
 
-import com.scrat.app.core.utils.ActivityUtils;
-import com.scrat.app.core.utils.L;
+
 
 import java.io.IOException;
 
