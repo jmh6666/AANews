@@ -42,8 +42,6 @@ public class NetApi {
                 Map<String,String> header=new HashMap<>();
 
 
-
-
                 Log.e("111",json);
             }
             }
