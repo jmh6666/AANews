@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.example.administrator.news.R;
 import com.example.administrator.news.model.NewsBean;
 import com.example.administrator.news.net.NetApi;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +23,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private  final static int TYPE_ONE=1;
     private  final static int TYPE_TWO=2;
-    private ArrayList<NewsBean> mDatas=new ArrayList<>();
     private List<NewsBean> mList;
+    private ImageLoader mImageLoader;
+    private DisplayImageOptions options;
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater=LayoutInflater.from(parent.getContext());
@@ -37,21 +40,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyDataSetChanged();
     }
     public RecyclerAdapter(){
-        this.mList=mList;
+        this.mList=new ArrayList<>();
     }
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         NewsBean news=mList.get(position);
         if (holder instanceof MyViewHolder){
             MyViewHolder holder1= (MyViewHolder)holder;
-            int newsImage=Integer.valueOf(news.getPic_url());
-            holder1.newsImage.setImageResource(newsImage);
+          //  int newsImage=Integer.parseInt(news.getPic_url());
+
+            mImageLoader.displayImage(news.getPic_url(),holder1.newsImage,options);
+
             holder1.newsTitle.setText(news.getTitle());
             holder1.newsContent.setText(news.getContent());
         }
         if (holder instanceof MyViewHolder2){
             MyViewHolder2 holder2=(MyViewHolder2)holder;
-            int newsImage=Integer.valueOf(news.getPic_url());
+            int newsImage=Integer.parseInt(news.getPic_url());
             holder2.newsTitle2.setText(news.getTitle());
             holder2.newsImage2.setImageResource(newsImage);
         }
@@ -59,17 +64,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        NewsBean newsType=mList.get(position);
-        if (newsType.getTp()==0)
+//        NewsBean newsType=mList.get(position);
+//        if (newsType.getTp()==0)
             return TYPE_ONE;
-        if (newsType.getTp()==1)
-            return TYPE_TWO;
-        return super.getItemViewType(position);
+//        if (newsType.getTp()==1)
+//            return TYPE_TWO;
+//        return super.getItemViewType(position);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mList.size();
     }
     class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView newsImage;

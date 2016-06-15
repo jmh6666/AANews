@@ -9,7 +9,26 @@ public class News {
     private int index;
     private List<NewsBean> data;
 
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public void setData(List<NewsBean> data) {
+        this.data = data;
+    }
+
+    public int getIndex() {
+
+        return index;
+    }
+
+    public List<NewsBean> getData() {
+
+        return data;
+    }
+
     @Override
+
     public String toString() {
         return "News{" +
                 "index=" + index +
