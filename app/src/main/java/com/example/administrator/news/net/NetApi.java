@@ -27,9 +27,6 @@ import okhttp3.Response;
  * Created by Administrator on 2016/6/13.
  */
 public class NetApi {
-    private static String newsTitle;
-    private static String newsImage;
-    private static String newsContent;
 
     private final static String newsListUrl
             ="http://104.224.140.47/news/api/list?index=0&size=2";

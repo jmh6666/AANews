@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
         NewsBean mNews = new NewsBean();
 
         images = Constants.images;
-
-        ImageLoader imageLoader = ImageLoader.getInstance();
         NetApi.getNewsList(new ICallback() {
             @Override
             public void showList(final List<NewsBean> list) {

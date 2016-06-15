@@ -51,6 +51,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         NewsBean news=mList.get(position);
         if (holder instanceof MyViewHolder){
             MyViewHolder holder1= (MyViewHolder)holder;
+            mImageLoader=ImageLoader.getInstance();
           //  int newsImage=Integer.parseInt(news.getPic_url());
             options = new DisplayImageOptions.Builder()
                     .showImageOnLoading(R.mipmap.ic_launcher) // 设置图片下载期间显示的图片
@@ -68,6 +69,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     .build();
 
             mImageLoader.displayImage(news.getPic_url(),holder1.newsImage,options);
+
 
             holder1.newsTitle.setText(news.getTitle());
             holder1.newsContent.setText(news.getContent());
