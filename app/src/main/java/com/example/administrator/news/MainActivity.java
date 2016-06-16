@@ -1,6 +1,7 @@
 package com.example.administrator.news;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,16 +36,15 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private RecyclerAdapter mAdapter;
-    private List<NewsBean> mDatas;
-    public DisplayImageOptions options;
-    private String[] images;
+    private NewsListSQL helper;
+    private Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_recyclerview);
         initView();
-        initDatas();
+        //initDatas();
         // xxxDatas();
     }
 
@@ -56,16 +56,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initDatas() {
-        NewsBean mNews = new NewsBean();
+        helper=new NewsListSQL(this);
+//        NewsBean mNews=new NewsBean();
+//        //helper.searchNewsList(mNews.getNid());
+//       // NewsBean mNews = new NewsBean();
+//        Cursor cursor=helper.query();
 
-        images = Constants.images;
+
+
         NetApi.getNewsList(new ICallback() {
             @Override
             public void showList(final List<NewsBean> list) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter.setmList(list);
+                        helper.setmList(list);
                     }
                 });
             }
@@ -75,8 +80,11 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.news_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new RecyclerAdapter();
+        mAdapter = new RecyclerAdapter(this,cursor);
+        helper=new NewsListSQL(this);
+        cursor=helper.query();
         mRecyclerView.setAdapter(mAdapter);
+
     }
 
 

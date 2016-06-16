@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -9,11 +9,12 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/news_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="5dp"
             android:src="@mipmap/ic_launcher"
             android:layout_centerVertical="true"
+            android:scaleType="fitXY"
             />
         <TextView
             android:id="@+id/news_title"
@@ -34,5 +35,9 @@
             android:text="这是新闻内容"
             android:textSize="15sp"/>
     </RelativeLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"
+        />
 </LinearLayout>

@@ -1,5 +1,7 @@
 package com.example.administrator.news.present;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.administrator.news.MainActivity;
+import com.example.administrator.news.NewsListSQL;
 import com.example.administrator.news.R;
 import com.example.administrator.news.model.NewsBean;
 import com.example.administrator.news.net.NetApi;
@@ -28,6 +32,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private  final static int TYPE_ONE=1;
     private  final static int TYPE_TWO=2;
     private List<NewsBean> mList;
+    private Context context;
+    private Cursor cursor;
     private ImageLoader mImageLoader;
     private DisplayImageOptions options;
     @Override
@@ -39,20 +45,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new MyViewHolder2(inflater
                     .inflate(R.layout.layout_news_list_two,parent,false));
     }
-    public void setmList(List<NewsBean> mList){
-        this.mList=mList;
-        notifyDataSetChanged();
-    }
-    public RecyclerAdapter(){
+//    public void setmList(List<NewsBean> mList){
+//        this.mList=mList;
+//        notifyDataSetChanged();
+//    }
+    public RecyclerAdapter(Context context, Cursor cursor){
+        this.context=context;
+        this.cursor=cursor;
         this.mList=new ArrayList<>();
     }
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         NewsBean news=mList.get(position);
+        cursor.moveToPosition(position);
         if (holder instanceof MyViewHolder){
-            MyViewHolder holder1= (MyViewHolder)holder;
             mImageLoader=ImageLoader.getInstance();
-          //  int newsImage=Integer.parseInt(news.getPic_url());
+            //  int newsImage=Integer.parseInt(news.getPic_url());
             options = new DisplayImageOptions.Builder()
                     .showImageOnLoading(R.mipmap.ic_launcher) // 设置图片下载期间显示的图片
                     .showImageForEmptyUri(R.mipmap.ic_launcher) // 设置图片Uri为空或是错误的时候显示的图片
@@ -67,29 +75,34 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     .displayer(new SimpleBitmapDisplayer()) // default  还可以设置圆角图片new RoundedBitmapDisplayer(20)
                     .handler(new Handler()) // default
                     .build();
+            MyViewHolder holder1= (MyViewHolder)holder;
+
 
             mImageLoader.displayImage(news.getPic_url(),holder1.newsImage,options);
 
 
-            holder1.newsTitle.setText(news.getTitle());
-            holder1.newsContent.setText(news.getContent());
+            //holder1.newsTitle.setText(news.getTitle());
+            holder1.newsTitle.setText(cursor.getString(2));
+           // String str=news.getContent().substring(0,15);
+            String str=cursor.getString(3).substring(0,15);
+            holder1.newsContent.setText(str+"...");
         }
         if (holder instanceof MyViewHolder2){
             MyViewHolder2 holder2=(MyViewHolder2)holder;
-            int newsImage=Integer.parseInt(news.getPic_url());
             holder2.newsTitle2.setText(news.getTitle());
-            holder2.newsImage2.setImageResource(newsImage);
+            mImageLoader.displayImage(news.getPic_url(),holder2.newsImage2,options);
+           
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-//        NewsBean newsType=mList.get(position);
-//        if (newsType.getTp()==0)
+        NewsBean newsType=mList.get(position);
+        if (newsType.getTp()==0)
             return TYPE_ONE;
-//        if (newsType.getTp()==1)
-//            return TYPE_TWO;
-//        return super.getItemViewType(position);
+        if (newsType.getTp()==1)
+            return TYPE_TWO;
+        return super.getItemViewType(position);
     }
 
     @Override
