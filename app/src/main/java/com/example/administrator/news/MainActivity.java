@@ -36,15 +36,14 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private RecyclerAdapter mAdapter;
-    private NewsListSQL helper;
-    private Cursor cursor;
+    private NewsListSQLite helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_recyclerview);
         initView();
-        //initDatas();
+        initDatas();
         // xxxDatas();
     }
 
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initDatas() {
-        helper=new NewsListSQL(this);
+        helper=new NewsListSQLite(this);
 //        NewsBean mNews=new NewsBean();
 //        //helper.searchNewsList(mNews.getNid());
 //       // NewsBean mNews = new NewsBean();
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        helper.setmList(list);
+                        helper.save(list);
                     }
                 });
             }
@@ -80,9 +79,9 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.news_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new RecyclerAdapter(this,cursor);
-        helper=new NewsListSQL(this);
-        cursor=helper.query();
+        mAdapter = new RecyclerAdapter();
+        helper=new NewsListSQLite(this);
+        mAdapter.setmList(helper.findAll());
         mRecyclerView.setAdapter(mAdapter);
 
     }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.administrator.news.MainActivity;
 import com.example.administrator.news.NewsListSQL;
+import com.example.administrator.news.NewsListSQLite;
 import com.example.administrator.news.R;
 import com.example.administrator.news.model.NewsBean;
 import com.example.administrator.news.net.NetApi;
@@ -32,8 +33,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private  final static int TYPE_ONE=1;
     private  final static int TYPE_TWO=2;
     private List<NewsBean> mList;
-    private Context context;
-    private Cursor cursor;
     private ImageLoader mImageLoader;
     private DisplayImageOptions options;
     @Override
@@ -45,19 +44,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new MyViewHolder2(inflater
                     .inflate(R.layout.layout_news_list_two,parent,false));
     }
-//    public void setmList(List<NewsBean> mList){
-//        this.mList=mList;
-//        notifyDataSetChanged();
-//    }
-    public RecyclerAdapter(Context context, Cursor cursor){
-        this.context=context;
-        this.cursor=cursor;
-        this.mList=new ArrayList<>();
+    public void setmList(List<NewsBean> mList){
+        this.mList=mList;
+        notifyDataSetChanged();
     }
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         NewsBean news=mList.get(position);
-        cursor.moveToPosition(position);
         if (holder instanceof MyViewHolder){
             mImageLoader=ImageLoader.getInstance();
             //  int newsImage=Integer.parseInt(news.getPic_url());
@@ -82,9 +76,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
             //holder1.newsTitle.setText(news.getTitle());
-            holder1.newsTitle.setText(cursor.getString(2));
+            holder1.newsTitle.setText(news.getTitle());
            // String str=news.getContent().substring(0,15);
-            String str=cursor.getString(3).substring(0,15);
+            String str=news.getContent().substring(0,15);
             holder1.newsContent.setText(str+"...");
         }
         if (holder instanceof MyViewHolder2){

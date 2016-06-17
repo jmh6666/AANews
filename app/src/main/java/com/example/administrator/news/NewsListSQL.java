@@ -27,13 +27,12 @@ public class NewsListSQL extends SQLiteOpenHelper {
     private final static String NEWS_PIC_URL = "pic_url";
     private final static String NEWS_PUBLISH_TS = "publish_ts";
     private final static String NEWS_TP = "tp";
-    private List<NewsBean> mList;
 
     public NewsListSQL(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
     public void setmList(List<NewsBean> mList){
-        this.mList=mList;
+        //this.mList=mList;
         //notifyDataSetChanged();
     }
     @Override
@@ -49,20 +48,21 @@ public class NewsListSQL extends SQLiteOpenHelper {
                 NEWS_TP + " Integer," +
                 NEWS_PIC_URL + " varchar(200)"+")");
         db.execSQL(sBuilder.toString());
-
-        for (NewsBean nList : mList) {
-            ContentValues cValues = new ContentValues();
-            cValues.put(NEWS_ID, nList.getNid());
-            cValues.put(NEWS_TITLE, nList.getTitle());
-            cValues.put(NEWS_CONTENT, nList.getContent());
-            cValues.put(NEWS_AUTHOR, nList.getAuthor());
-            cValues.put(NEWS_PUBLISH_TS, nList.getPublish_ts());
-            cValues.put(NEWS_PIC_URL, nList.getPic_url());
-            cValues.put(NEWS_TP, nList.getTp());
-            db.insert(NEWS_TBL, null, cValues);
-            Log.e("111", NEWS_TITLE);
+        List<NewsBean> mList
+                ;
+//        for (NewsBean nList : mList) {
+//            ContentValues cValues = new ContentValues();
+//            cValues.put(NEWS_ID, nList.getNid());
+//            cValues.put(NEWS_TITLE, nList.getTitle());
+//            cValues.put(NEWS_CONTENT, nList.getContent());
+//            cValues.put(NEWS_AUTHOR, nList.getAuthor());
+//            cValues.put(NEWS_PUBLISH_TS, nList.getPublish_ts());
+//            cValues.put(NEWS_PIC_URL, nList.getPic_url());
+//            cValues.put(NEWS_TP, nList.getTp());
+//            db.insert(NEWS_TBL, null, cValues);
+//            Log.e("111", NEWS_TITLE);
         }
-    }
+ //   }
 
     public Cursor query() {
         SQLiteDatabase db = getWritableDatabase();
