@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.administrator.news.MainActivity;
 import com.example.administrator.news.NewsListSQL;
 import com.example.administrator.news.NewsListSQLite;
+import com.example.administrator.news.OnItemClickListener;
 import com.example.administrator.news.R;
 import com.example.administrator.news.model.NewsBean;
 import com.example.administrator.news.net.NetApi;
@@ -35,6 +36,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<NewsBean> mList;
     private ImageLoader mImageLoader;
     private DisplayImageOptions options;
+    private OnItemClickListener mOnClickListener;
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater=LayoutInflater.from(parent.getContext());
@@ -44,13 +47,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new MyViewHolder2(inflater
                     .inflate(R.layout.layout_news_list_two,parent,false));
     }
+    public void setmOnClickListener(OnItemClickListener mOnClickListener){
+        this.mOnClickListener=mOnClickListener;
+    }
     public void setmList(List<NewsBean> mList){
         this.mList=mList;
         notifyDataSetChanged();
     }
 
+
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         NewsBean news=mList.get(position);
         if (holder instanceof MyViewHolder){
             mImageLoader=ImageLoader.getInstance();
@@ -86,6 +93,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             holder2.newsTitle2.setText(news.getTitle());
             mImageLoader.displayImage(news.getPic_url(),holder2.newsImage2,options);
            
+        }
+        if (mOnClickListener!=null){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos=holder.getLayoutPosition();
+                    mOnClickListener.OnItemClick(holder.itemView,pos);
+                }
+            });
         }
     }
 

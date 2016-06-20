@@ -1,6 +1,7 @@
 package com.example.administrator.news;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.administrator.news.model.News;
 import com.example.administrator.news.model.NewsBean;
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerAdapter mAdapter;
     private NewsListSQLite helper;
+    private List<NewsBean> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,47 +48,51 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.layout_recyclerview);
         initView();
         initDatas();
-        // xxxDatas();
     }
 
-//    private void xxxDatas() {
-//        mDatas=new ArrayList<NewsBean>();
-//        mDatas.add(new NewsBean(1,"标题","作者","内容","时间","图片",0));
-//        mAdapter.setmList(mDatas);
-//    }
-
-
     private void initDatas() {
-        helper=new NewsListSQLite(this);
-//        NewsBean mNews=new NewsBean();
-//        //helper.searchNewsList(mNews.getNid());
-//       // NewsBean mNews = new NewsBean();
-//        Cursor cursor=helper.query();
-
-
 
         NetApi.getNewsList(new ICallback() {
             @Override
             public void showList(final List<NewsBean> list) {
+                helper.save(list);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        helper.save(list);
+
+                        mAdapter.setmList(helper.findAll());
                     }
                 });
             }
         });
+        mAdapter.setmOnClickListener(new OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+                Intent intent=new Intent(MainActivity.this,DetailsActivity.class);
+                NewsBean news=mList.get(position);
+                Bundle bundle=new Bundle();
+                bundle.putString("title",news.getTitle());
+                intent.putExtras(bundle);
+                startActivity(intent);
+                Toast.makeText(getApplication(),"您点击了第"+position+"个",Toast.LENGTH_LONG).show();
+            }
+        });
+
+
     }
 
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.news_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RecyclerAdapter();
+        mList=new ArrayList<NewsBean>();
         helper=new NewsListSQLite(this);
+        mList=helper.findAll();
         mAdapter.setmList(helper.findAll());
         mRecyclerView.setAdapter(mAdapter);
 
-    }
 
+
+    }
 
 }

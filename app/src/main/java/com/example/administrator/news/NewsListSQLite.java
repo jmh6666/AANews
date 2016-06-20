@@ -79,5 +79,12 @@ public class NewsListSQLite extends BaseDao<NewsBean> {
         String[] args = new String[]{String.valueOf(news.getNid())};
         update(values, selection, args);
     }
-
+    public Cursor query()
+    {
+        //获得SQLiteDatabase实例
+        SQLiteDatabase db=getWritableDatabase();
+        //查询获得Cursor
+        Cursor c=db.query(NEWS_TBL, new String[]{"title","pulish_ts","author","content"}, null, null, null, null,null);
+        return c;
+    }
 }
