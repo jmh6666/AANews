@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -68,13 +70,19 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.setmOnClickListener(new OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
+
                 Intent intent=new Intent(MainActivity.this,DetailsActivity.class);
+
                 NewsBean news=mList.get(position);
                 Bundle bundle=new Bundle();
                 bundle.putString("title",news.getTitle());
+                bundle.putString("date",news.getPublish_ts());
+                bundle.putString("author",news.getAuthor());
+                bundle.putString("image",news.getPic_url());
+                bundle.putString("content",news.getContent());
                 intent.putExtras(bundle);
                 startActivity(intent);
-                Toast.makeText(getApplication(),"您点击了第"+position+"个",Toast.LENGTH_LONG).show();
+
             }
         });
 
