@@ -29,6 +29,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.layout_recyclerview);
         initView();
         initDatas();
+
     }
 
     private void initDatas() {
@@ -70,9 +73,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.setmOnClickListener(new OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
-
                 Intent intent=new Intent(MainActivity.this,DetailsActivity.class);
-
                 NewsBean news=mList.get(position);
                 Bundle bundle=new Bundle();
                 bundle.putString("title",news.getTitle());
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putString("author",news.getAuthor());
                 bundle.putString("image",news.getPic_url());
                 bundle.putString("content",news.getContent());
+
                 intent.putExtras(bundle);
                 startActivity(intent);
 
